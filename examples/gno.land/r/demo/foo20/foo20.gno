@@ -16,14 +16,20 @@ var (
 
 func init() {
 	foo = grc20.NewAdminToken("Foo", "FOO", 4)
-	foo.Mint(admin, 1000000*10000)                                    // @administrator (1M)
-	foo.Mint("g1u7y667z64x2h7vc6fmpcprgey4ck233jaww9zq", 10000*10000) // @manfred (10k)
+	foo.Mint(admin, 10_000_000_000)                                   // @administrator (1M)
+	foo.Mint("g1u7y667z64x2h7vc6fmpcprgey4ck233jaww9zq", 100_000_000) // @manfred (10k)
+	foo.Mint(std.DerivePkgAddr("gno.land/r/demo/foo20-airdrop"), 10_000_000)
+	_ = foo.GRC20()
 }
 
 // method proxies as public functions.
 //
 
 // getters.
+
+func GRC20() grc20.IGRC20 {
+	return foo.GRC20()
+}
 
 func TotalSupply() uint64 {
 	return foo.TotalSupply()
