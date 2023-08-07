@@ -1,4 +1,4 @@
-package airdrop
+package grc20_merkle
 
 import (
 	"std"

@@ -4,13 +4,14 @@ import (
 	"std"
 	"testing"
 
-	"gno.land/p/demo/airdrop"
+	"gno.land/p/demo/ufmt"
+	"gno.land/p/demo/airdrop/grc20_merkle"
 	"gno.land/p/demo/merkle"
 	"gno.land/r/demo/foo20"
 	"gno.land/r/demo/users"
 )
 
-var leaves []merkle.Hashable = []airdrop.AirdropData{
+var leaves []merkle.Hashable = []grc20_merkle.AirdropData{
 	{
 		Address: "g1auhc2cymv7gn9qmls0ttdr3wqrljgz0dhq90e",
 		Amount:  1_000_000,
@@ -44,7 +45,7 @@ func TestClaimAirdrop(t *testing.T) {
 
 	sumClaimed := uint64(0)
 	for _, leaf := range leaves {
-		data := leaf.(airdrop.AirdropData)
+		data := leaf.(grc20_merkle.AirdropData)
 		user := data.Address
 		sumClaimed += data.Amount
 
@@ -55,7 +56,7 @@ func TestClaimAirdrop(t *testing.T) {
 		}
 
 		// claim airdrop
-		Claim(leaf.(airdrop.AirdropData), proofs)
+		Claim(leaf.(grc20_merkle.AirdropData), proofs)
 	}
 
 	ttClaimed := TotalClaimed()

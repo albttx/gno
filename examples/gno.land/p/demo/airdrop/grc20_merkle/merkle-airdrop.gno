@@ -1,13 +1,13 @@
-package airdrop
+package grc20_merkle
 
 import (
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
-	"fmt"
 	"std"
 
 	"gno.land/p/demo/avl"
+	"gno.land/p/demo/ufmt"
 	"gno.land/p/demo/grc/grc20"
 	"gno.land/p/demo/merkle"
 )
@@ -19,19 +19,17 @@ var (
 
 type AirdropData struct {
 	Address std.Address
-	// TODO: use std.Coin
 	Amount uint64
-	// Amount std.Coin
 }
 
-func (data AirdropData) Bytes() []byte {
+func (d AirdropData) Bytes() []byte {
 	// TODO: use binary.Write
 	// var buf bytes.Buffer
 	// binary.Write(&buf, binary.BigEndian, d)
 	// return buf.Bytes()
 	// OR: use json.Marshal for frontend compatibilities
 
-	s := fmt.Sprintf("%v", data)
+	s := ufmt.Sprintf("%v", d)
 	return []byte(s)
 }
 
