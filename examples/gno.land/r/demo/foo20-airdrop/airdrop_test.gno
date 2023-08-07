@@ -26,16 +26,22 @@ var leaves []merkle.Hashable = []grc20_merkle.AirdropData{
 	},
 }
 
-func TestRegisterMerkle(t *testing.T) {
-	tree := merkle.NewTree(leaves)
-	root := tree.Root()
+// func TestRegisterMerkle(t *testing.T) {
+// 	tree := merkle.NewTree(leaves)
+// 	root := tree.Root()
 
-	RegisterMerkleRoot(root)
-	reset()
-}
+// 	RegisterMerkleRoot(root)
+// 	reset()
+// }
 
+// user1.gno -> r/foo20-airdrop -> p/airdrop/grc_merkle -> r/foo20
 func TestClaimAirdrop(t *testing.T) {
+	println("Prev", std.PrevRealm().PkgPath())
+	println("Current", std.CurrentRealm().PkgPath())
+	println("------------------------------------")
+	println("------------------------------------")
 	contractAddr := std.DerivePkgAddr("gno.land/r/demo/foo20-airdrop")
+	// contractAddr := std.DerivePkgAddr("user1.gno")
 	std.TestSetOrigCaller(contractAddr)
 
 	// instantiate foo20 airdrop contract

@@ -2,6 +2,7 @@ package stdlibs
 
 import (
 	"crypto/sha256"
+	"fmt"
 	"math"
 	"reflect"
 	"strconv"
@@ -263,6 +264,7 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 				m.PushValue(res0)
 			},
 		)
+
 		pn.DefineNative("CurrentRealm",
 			gno.Flds( // params
 			),
@@ -317,6 +319,20 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 
 				for i := m.NumFrames() - 1; i > 0; i-- {
 					fr := m.Frames[i]
+					fmt.Printf("Frame[%d] ", i)
+					// if fr.LastPackage != nil && fr.LastPackage.IsRealm() {
+					if fr.LastPackage != nil {
+						lastCaller = fr.LastPackage.GetPkgAddr().Bech32()
+						lastPkgPath = fr.LastPackage.PkgPath
+
+						fmt.Printf("lastCaller: %v, ", lastCaller)
+						fmt.Printf("lastPkgPath: %v", lastPkgPath)
+					}
+					fmt.Printf("\n")
+				}
+
+				for i := m.NumFrames() - 1; i > 0; i-- {
+					fr := m.Frames[i]
 					if fr.LastPackage == nil || !fr.LastPackage.IsRealm() {
 						// Ignore non-realm frame
 						continue
@@ -335,6 +351,9 @@ func InjectPackage(store gno.Store, pn *gno.PackageNode) {
 						break
 					}
 				}
+
+				fmt.Printf("RETURNING: %v\n", lastPkgPath)
+				println("===========")
 
 				// Empty the pkgPath if we return a user
 				if ctx.OrigCaller == lastCaller {
