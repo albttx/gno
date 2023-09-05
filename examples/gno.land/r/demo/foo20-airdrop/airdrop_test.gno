@@ -34,8 +34,11 @@ func TestRegisterMerkle(t *testing.T) {
 }
 
 func TestClaimAirdrop(t *testing.T) {
-	contractAddr := std.DerivePkgAddr("gno.land/r/demo/foo20-airdrop")
-	std.TestSetOrigCaller(contractAddr)
+	println("prev", std.PrevRealm())
+	println("current", std.CurrentRealm().PkgPath())
+
+	// contractAddr := std.DerivePkgAddr("gno.land/r/demo/foo20-airdrop")
+	// std.TestSetOrigCaller(contractAddr)
 
 	// instantiate foo20 airdrop contract
 	tree := merkle.NewTree(leaves)

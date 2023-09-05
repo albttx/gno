@@ -28,6 +28,9 @@ func (t *userToken) BalanceOf(owner std.Address) (uint64, error) {
 
 func (t *userToken) Transfer(to std.Address, amount uint64) error {
 	caller := std.PrevRealm().Addr()
+	println(
+		"===> transfer:", amount, "from:", caller, "to:", to,
+	)
 	return t.admin.transfer(caller, to, amount)
 }
 
