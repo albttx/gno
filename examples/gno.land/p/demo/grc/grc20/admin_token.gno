@@ -262,8 +262,11 @@ func (t *AdminToken) RenderHome() string {
 
 // GRC20 returns an instance that can be exposed to the end user.
 func (t *AdminToken) GRC20() IGRC20 {
+	println("GRC20: Setting realm to1", std.CurrentRealm())
+	println("GRC20: Setting realm to2", std.PrevRealm())
 	return &userToken{
 		admin: t,
-		prevRealm: std.PrevRealm(),
+		// realm: std.CurrentRealm(),
+		realm: std.PrevRealm(),
 	}
 }
