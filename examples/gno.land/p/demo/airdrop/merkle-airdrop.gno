@@ -67,10 +67,11 @@ func (ma *MerkleAirdrop) Claim(data AirdropData, proofs []merkle.Node) error {
 		return ErrInvalidProof
 	}
 
-	err := ma.token.Transfer(data.Address, data.Amount)
-	if err != nil {
-		return err
-	}
+	// foo20.Transfer(data.Address, data.Amount)
+	// err := ma.token.Transfer(data.Address, data.Amount)
+	// if err != nil {
+	// 	return err
+	// }
 
 	ma.claimed.Set(hash, data.Amount)
 	return nil

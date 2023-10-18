@@ -264,7 +264,7 @@ func (t *AdminToken) RenderHome() string {
 func (t *AdminToken) GRC20() IGRC20 {
 	// println("GRC20: Setting realm to1", std.CurrentRealm())
 	println("1. ====")
-	println("GRC20: Setting realm to2", std.PrevRealm())
+	println("GRC20: Setting realm to std.PrevRealm()", std.PrevRealm())
 	println("2. ====")
 	return &userToken{
 		admin: t,

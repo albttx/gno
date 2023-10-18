@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	token grc20.IGRC20 = foo20.GRC20()
+	// token grc20.IGRC20 = foo20.GRC20()
+	token grc20.IGRC20
 
 	// admin std.Address = "g1sw5xklxjjuv0yvuxy5f5s3l3mnj0nqq626a9wr" // albttx.gno
 
@@ -22,6 +23,9 @@ func PrevRealm() std.Realm {
 }
 
 func RegisterMerkleRoot(root string) {
+	token = foo20.GRC20()
+	foo20airdrop = nil
+
 	if foo20airdrop != nil {
 		panic("foo20 airdrop merkle root is already registered")
 	}
