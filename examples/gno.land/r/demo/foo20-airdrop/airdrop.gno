@@ -1,6 +1,8 @@
 package foo20airdrop
 
 import (
+	"std"
+
 	"gno.land/p/demo/airdrop"
 	"gno.land/p/demo/grc/grc20"
 	"gno.land/p/demo/merkle"
@@ -14,6 +16,10 @@ var (
 
 	foo20airdrop *airdrop.MerkleAirdrop
 )
+
+func PrevRealm() std.Realm {
+	return std.PrevRealm()
+}
 
 func RegisterMerkleRoot(root string) {
 	if foo20airdrop != nil {

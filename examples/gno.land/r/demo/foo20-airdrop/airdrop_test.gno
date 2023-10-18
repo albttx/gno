@@ -34,10 +34,12 @@ var leaves []merkle.Hashable = []airdrop.AirdropData{
 // }
 
 func TestClaimAirdrop(t *testing.T) {
-	println("prev", std.PrevRealm())
-	println("current", std.CurrentRealm())
+	// println("prev", std.PrevRealm())
+	// println("current", std.CurrentRealm())
+	// println("foo20-airdrop.PrevRealm", PrevRealm())
 
 	contractAddr := std.DerivePkgAddr("gno.land/r/demo/foo20-airdrop")
+	println("contractADDR", contractAddr)
 	std.TestSetOrigCaller(contractAddr)
 
 	// instantiate foo20 airdrop contract
