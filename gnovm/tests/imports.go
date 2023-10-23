@@ -581,6 +581,44 @@ func testPackageInjector(store gno.Store, pn *gno.PackageNode) {
 				m.Context = ctx
 			},
 		)
+
+		pn.DefineNative("TestPushFrameRealm",
+			gno.Flds( // params
+				"", "string",
+			),
+			gno.Flds( // results
+			),
+			func(m *gno.Machine) {
+				arg0 := m.LastBlock().GetParams1().TV
+				realmPath := arg0.GetString()
+				_ = realmPath
+				// overwrite context
+				ctx := m.Context.(stdlibs.ExecContext)
+
+				for i := m.NumFrames() - 1; i > 0; i-- {
+					fr := m.Frames[i]
+					fmt.Printf("Frame[%d]", i)
+					if fr.LastPackage == nil || !fr.LastPackage.IsRealm() {
+						// Ignore non-realm frame
+						fmt.Printf("\n")
+						continue
+					}
+
+					fmt.Printf("\n")
+				}
+				fv := &gno.FuncValue{
+					// Type: nil,
+					IsMethod: false,
+					Name:     "",
+					PkgPath:  realmPath,
+				}
+				_ = fv
+				// m.PushFrameCall(nil, fv, gno.TypedValue{})
+				// ctx.OrigCaller = crypto.Bech32Address(addr)
+				m.Context = ctx
+			},
+		)
+
 		pn.DefineNative("TestSetOrigPkgAddr",
 			gno.Flds( // params
 				"", "Address",

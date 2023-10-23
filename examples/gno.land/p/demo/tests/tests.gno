@@ -3,6 +3,7 @@ package tests
 import (
 	"std"
 
+	"gno.land/p/demo/grc/grc20"
 	psubtests "gno.land/p/demo/tests/subtests"
 	"gno.land/r/demo/tests"
 	rtests "gno.land/r/demo/tests"
@@ -69,4 +70,13 @@ func GetRTestsGetPrevRealm() std.Realm {
 // Warning: unsafe pattern.
 func Exec(fn func()) {
 	fn()
+}
+
+// func NewFooBanker() (*grc20.Banker20, grc20.IGRC20) {
+// foo20 := grc20.NewGRC20("Foo", "FOO", 0)
+// return foo20, foo20.()
+// }
+
+func BankerTransfer(b grc20.IGRC20, to std.Address, amount uint64) error {
+	return b.Transfer(to, amount)
 }

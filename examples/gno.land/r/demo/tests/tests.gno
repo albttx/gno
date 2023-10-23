@@ -3,6 +3,7 @@ package tests
 import (
 	"std"
 
+	"gno.land/p/demo/grc/grc20"
 	rsubtests "gno.land/r/demo/tests/subtests"
 )
 
@@ -84,4 +85,8 @@ func GetRSubtestsPrevRealm() std.Realm {
 
 func Exec(fn func()) {
 	fn()
+}
+
+func BankerTransfer(b grc20.IGRC20, to std.Address, amount uint64) error {
+	return b.Transfer(to, amount)
 }
