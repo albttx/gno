@@ -388,6 +388,14 @@ func runTestFiles(
 		testFuncStr := fmt.Sprintf("%q", test.Name)
 
 		startedAt := time.Now()
+		// Don't understand yet, need an empty frame first
+		m.Frames = append(m.Frames, gno.Frame{})
+		m.Frames = append(m.Frames, gno.Frame{
+			LastPackage: &gno.PackageValue{
+				PkgName: "test",
+				PkgPath: "gno.land/r/internal/test",
+			},
+		})
 		eval := m.Eval(gno.Call("runtest", testFuncStr))
 		duration := time.Since(startedAt)
 		dstr := fmtDuration(duration)
