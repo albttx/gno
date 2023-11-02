@@ -44,3 +44,7 @@ fmt:
 .PHONY: lint
 lint:
 	$(rundep) github.com/golangci/golangci-lint/cmd/golangci-lint run --config .github/golangci.yml
+
+test.lol:
+	# go run ./gnovm/cmd/gno test --verbose ./examples/gno.land/r/demo/lol
+	go run ./gnovm/cmd/gno test --verbose ./examples/gno.land/p/demo/lol
