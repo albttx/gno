@@ -616,6 +616,94 @@ func testPackageInjector(store gno.Store, pn *gno.PackageNode) {
 				m.Context = ctx
 			},
 		)
+
+
+
+		pn.DefineNative("PrintFrames",
+			gno.Flds( // params
+			),
+			gno.Flds( // results
+			),
+			func(m *gno.Machine) {
+				var (
+					ctx = m.Context.(stdlibs.ExecContext)
+					// Default lastCaller is OrigCaller, the signer of the tx
+					lastCaller  = ctx.OrigCaller
+					lastPkgPath = ""
+				)
+
+				for i := m.NumFrames() - 1; i > 0; i-- {
+					fr := m.Frames[i]
+					fmt.Printf("Frame[%d] ", i)
+					// if fr.LastPackage != nil && fr.LastPackage.IsRealm() {
+					if fr.LastPackage != nil {
+						lastCaller = fr.LastPackage.GetPkgAddr().Bech32()
+						lastPkgPath = fr.LastPackage.PkgPath
+
+						fmt.Printf("%v\t ", fr.LastPackage.IsRealm())
+						fmt.Printf("lastCaller: %v, ", lastCaller)
+						fmt.Printf("lastPkgPath: %v", lastPkgPath)
+						if fr.Func != nil {
+							fmt.Printf(", funcValue: %v", fr.Func)
+						}
+					}
+					fmt.Printf("\n")
+				}
+			},
+		)
+
+		pn.DefineNative("TestSetCurrentRealm",
+			gno.Flds( // params
+				"", "string",
+			),
+			gno.Flds( // results
+			),
+			func(m *gno.Machine) {
+				arg0 := m.LastBlock().GetParams1().TV
+				realm := arg0.GetString()
+				_ = realm
+
+				for i, fr := range m.Frames {
+					_ = i
+					if fr.LastPackage != nil && fr.LastPackage.PkgPath == "gno.land/r/internal/test" {
+						// m.Frames[i].LastPackage.PkgPath = realm
+						fr.LastPackage.PkgPath = realm
+						m.Frames[i] = fr
+					}
+				}
+			},
+		)
+
+		pn.DefineNative("TestSetPrevRealm",
+			gno.Flds( // params
+				"", "string",
+			),
+			gno.Flds( // results
+			),
+			func(m *gno.Machine) {
+				arg0 := m.LastBlock().GetParams1().TV
+				realm := arg0.GetString()
+
+				for i := m.NumFrames() - 1; i > 0; i-- {
+					fr := m.Frames[i]
+
+					if fr.LastPackage != nil && fr.LastPackage.IsRealm() {
+						m.Frames = append(m.Frames[:i+1], m.Frames[i:]...)
+						m.Frames[i] = gno.Frame{
+							LastPackage: &gno.PackageValue{
+								PkgName: "test",
+								PkgPath: realm,
+							},
+						}
+						return
+					}
+				}
+			},
+		)
+
+
+
+
 		pn.DefineNative("TestIssueCoins",
 			gno.Flds( // params
 				"addr", "Address",
