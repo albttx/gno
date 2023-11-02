@@ -1,1 +1,1 @@
-module gno.land/r/demo/lol2
+module gno.land/r/demo/lol

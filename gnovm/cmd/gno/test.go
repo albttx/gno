@@ -342,6 +342,7 @@ func gnoTestPkg(
 				m.Alloc = gno.NewAllocator(maxAllocTx)
 			}
 			m.RunMemPackage(memPkg, true)
+			fmt.Println("PKGPATH", memPkg.Path)
 			err := runTestFiles(m, tfiles, memPkg.Name, verbose, printRuntimeMetrics, runFlag, io)
 			if err != nil {
 				errs = multierr.Append(errs, err)
