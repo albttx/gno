@@ -8,6 +8,7 @@ on:
     branches:
       - "master"
       - "ops/portal-loop"
+      - "fix/loop-docker-master"
     tags:
       - "v*"
 
